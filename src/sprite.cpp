@@ -1,5 +1,7 @@
 #include "sprite.hpp"
 
+#include "resource-path.hpp"
+
 sf::Vector2i operator*(const sf::Vector2i & a, const sf::Vector2i & b)
 {
     return {a.x * b.x, a.y * b.y};
@@ -10,7 +12,7 @@ sf::Texture loadTexture(const std::string & filename)
     sf::Texture texture;
     if (!texture.loadFromFile(filename))
     {
-        if (!texture.loadFromFile("data/unknown.png"))
+        if (!texture.loadFromFile(resourcePath() + "unknown.png"))
         {
             throw std::runtime_error("Failed to load unknown.png");
         }
