@@ -4,13 +4,13 @@
 
 namespace swr
 {
-    Game::Game()
+    Game::Game() noexcept
         : m_window(sf::VideoMode({800, 600}), "TheSewerlands"),
           m_spritesheet(resourcePath() + "spritesheet.png")
     {
     }
 
-    void Game::run()
+    void Game::run() noexcept
     {
         while (m_window.isOpen())
         {
@@ -20,7 +20,7 @@ namespace swr
         }
     }
 
-    void Game::handleEvents()
+    void Game::handleEvents() noexcept
     {
         sf::Event event;
         while (m_window.pollEvent(event))
@@ -35,12 +35,12 @@ namespace swr
         }
     }
 
-    void Game::update()
+    void Game::update() noexcept
     {
         // TODO: update the game
     }
 
-    void Game::render()
+    void Game::render() noexcept
     {
         m_window.clear(sf::Color::Green);
         // TODO: render the game

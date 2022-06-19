@@ -7,15 +7,15 @@ namespace swr
     class Game
     {
     public:
-        Game();
+        Game() noexcept;
         ~Game() = default;
 
-        void run();
+        void run() noexcept;
 
     private:
-        void handleEvents();
-        void update();
-        void render();
+        void handleEvents() noexcept;
+        void update() noexcept;
+        void render() noexcept;
 
         sf::RenderWindow m_window;
         Spritesheet m_spritesheet;
