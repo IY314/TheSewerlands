@@ -1,5 +1,10 @@
 #include "sprite.hpp"
 
+sf::Vector2i operator*(const sf::Vector2i & a, const sf::Vector2i & b)
+{
+    return {a.x * b.x, a.y * b.y};
+}
+
 namespace swr
 {
     Spritesheet::Spritesheet(const std::string & filename,
@@ -15,12 +20,12 @@ namespace swr
         }
     }
 
-    sf::Sprite Spritesheet::operator()(const sf::Vector2i & coords) const
+    sf::Sprite Spritesheet::operator()(const sf::Vector2i & coords,
+                                       const sf::Vector2i & size) const
     {
         sf::Sprite sprite;
         sprite.setTexture(m_texture);
-        sprite.setTextureRect(
-            {{coords.x * m_size.x, coords.y * m_size.y}, m_size});
+        sprite.setTextureRect({coords * m_size, m_size * size});
         return sprite;
     }
 }  // namespace swr

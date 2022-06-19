@@ -10,7 +10,8 @@ namespace swr
     {
     public:
         Spritesheet(const std::string & filename, const sf::Vector2i & size);
-        sf::Sprite operator()(const sf::Vector2i & coords) const;
+        sf::Sprite operator()(const sf::Vector2i & coords,
+                              const sf::Vector2i & size = {1, 1}) const;
 
     private:
         sf::Texture m_texture;
