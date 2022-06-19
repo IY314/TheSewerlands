@@ -5,6 +5,8 @@ set(SEWERLANDS_SOURCES
     "sprite.cpp"
     "resource-path.mm"
     "game.cpp"
+    "object.cpp"
+    "room.cpp"
 )
 
 set(MACOSX_BUNDLE_ICON_FILE "sewerlands.icns")
