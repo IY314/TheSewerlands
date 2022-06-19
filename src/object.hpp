@@ -11,7 +11,7 @@ namespace swr
     public:
         RoomObject(const std::string & name,
                    const sf::Vector2i & roomPos,
-                   const sf::Sprite & sprite);
+                   const sf::Sprite & sprite) noexcept;
         ~RoomObject() = default;
 
         virtual void update() noexcept = 0;
@@ -28,7 +28,7 @@ namespace swr
     {
     public:
         Chest(const sf::Vector2i &
-                  roomPos /* , const std::vector<Item> & items */);
+                  roomPos /* , const std::vector<Item> & items */) noexcept;
         ~Chest() = default;
 
         void update() noexcept override;
