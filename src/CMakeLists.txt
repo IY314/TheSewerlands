@@ -5,9 +5,9 @@ set(SEWERLANDS_SOURCES
     "sprite.cpp"
 )
 
-set(MACOSX_BUNDLE_ICON_FILE sewerlands.icns)
+set(MACOSX_BUNDLE_ICON_FILE "sewerlands.icns")
 
-set(SEWERLANDS_ICON ${CMAKE_SOURCE_DIR}/data/sewerlands.icns)
+set(SEWERLANDS_ICON "${CMAKE_SOURCE_DIR}/data/sewerlands.icns")
 set_source_files_properties(${SEWERLANDS_ICON} PROPERTIES
     MACOSX_PACKAGE_LOCATION "Resources")
 
