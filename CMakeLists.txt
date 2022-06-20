@@ -5,7 +5,10 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/build")
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-project(sewerlands LANGUAGES CXX OBJCXX VERSION 0.1)
+project(
+  sewerlands
+  LANGUAGES CXX OBJCXX
+  VERSION 0.1)
 
 add_subdirectory("${CMAKE_SOURCE_DIR}/external/SFML")
 add_subdirectory("${CMAKE_SOURCE_DIR}/src")
