@@ -1,0 +1,5 @@
+*.cpp eol=lf text diff=cpp
+*.hpp eol=lf text diff=cpp
+*.mm eol=lf text diff=objc
+CMakeLists.txt eol=lf text diff=cmake
+*.cmake eol=lf text diff=cmake
