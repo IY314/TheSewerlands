@@ -1,11 +1,16 @@
 #include "room.hpp"
+#include "sprite.hpp"
 
 namespace swr
 {
-    Room::Room(const std::string &name, const sf::Vector2i &size) noexcept
+    Room::Room(const std::string &name,
+               const std::string &bgpath,
+               const sf::Vector2i &size) noexcept
         : m_name(name),
-          m_size(size)
+          m_size(size),
+          m_background(getSprite(bgpath))
     {
+        m_background.setScale({500, 500});
     }
 
     void Room::update() noexcept
@@ -17,7 +22,7 @@ namespace swr
 
     void Room::render(sf::RenderWindow &window) const noexcept
     {
-        // TODO: render room
+        window.draw(m_background);
 
         for (const auto &object : m_objects) object.render(window);
     }

@@ -8,6 +8,7 @@ namespace swr
     {
     public:
         Room(const std::string &name,
+             const std::string &bgpath,
              const sf::Vector2i &size = {128, 128}) noexcept;
         ~Room() = default;
 
@@ -20,5 +21,6 @@ namespace swr
         sf::Vector2i m_size;
 
         std::vector<RoomObject> m_objects;
+        sf::Sprite m_background;
     };
 }  // namespace swr
