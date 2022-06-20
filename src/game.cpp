@@ -27,10 +27,10 @@ namespace swr
         {
             switch (event.type)
             {
-                case sf::Event::Closed: m_window.close(); break;
-                // TODO: handle key input
-                // TODO: handle other events
-                default: break;
+            case sf::Event::Closed: m_window.close(); break;
+            // TODO: handle key input
+            // TODO: handle other events
+            default: break;
             }
         }
     }

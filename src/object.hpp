@@ -9,14 +9,14 @@ namespace swr
     class RoomObject
     {
     public:
-        RoomObject(const std::string & name,
-                   const sf::Vector2i & roomPos,
-                   const sf::Sprite & sprite) noexcept;
+        RoomObject(const std::string &name,
+                   const sf::Vector2i &roomPos,
+                   const sf::Sprite &sprite) noexcept;
         virtual ~RoomObject() = default;
 
         virtual void update() noexcept = 0;
 
-        virtual void render(sf::RenderWindow & window) const noexcept;
+        virtual void render(sf::RenderWindow &window) const noexcept;
 
     private:
         std::string m_name;
@@ -27,13 +27,13 @@ namespace swr
     class Chest : public RoomObject
     {
     public:
-        Chest(const sf::Vector2i &
-                  roomPos /* , const std::vector<Item> & items */) noexcept;
+        Chest(const sf::Vector2i
+                  &roomPos /* , const std::vector<Item> & items */) noexcept;
         ~Chest() override = default;
 
         void update() noexcept override;
 
-        void render(sf::RenderWindow & window) const noexcept override;
+        void render(sf::RenderWindow &window) const noexcept override;
 
     private:
         // std::vector<Item> m_items;
