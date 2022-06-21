@@ -1,0 +1,2 @@
+CompileFlags:
+  Add: [-Wall, -Werror, -Wextra, -Wpedantic, -Wno-unused-parameter]
