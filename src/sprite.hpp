@@ -1,8 +1,11 @@
 #pragma once
 
+#include <memory>
 #include <string>
 
 #include <SFML/Graphics.hpp>
+#include "SFML/Graphics/Sprite.hpp"
+#include "SFML/Graphics/Texture.hpp"
 
 namespace swr
 {
@@ -21,7 +24,21 @@ namespace swr
         sf::Vector2i m_size;
     };
 
-    sf::Sprite getSprite(const std::string &filename,
-                         const sf::Vector2i &coords = {0, 0},
-                         const sf::Vector2i &size = {16, 16}) noexcept(false);
+    class Sprite
+    {
+    public:
+        Sprite(const std::string &filename,
+               const sf::Vector2i &coords = {0, 0},
+               const sf::Vector2i &size = {16, 16}) noexcept(false);
+
+        const sf::Sprite &operator*() const noexcept;
+
+        sf::Sprite *operator->() noexcept;
+
+    private:
+        sf::Vector2i m_coords;
+        sf::Vector2i m_size;
+        sf::Texture m_texture;
+        sf::Sprite m_sprite;
+    };
 }  // namespace swr

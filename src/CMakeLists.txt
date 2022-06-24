@@ -23,7 +23,7 @@ foreach(FILE ${SEWERLANDS_RES_SOURCES})
   get_filename_component(NEW_FILE_PATH ${NEW_FILE} DIRECTORY)
 
   # Set it's location inside the app package (under Resources).
-  set_source_files_properties(${FILE} MACOSX_PACKAGE_LOCATION
+  set_source_files_properties(${FILE} PROPERTIES MACOSX_PACKAGE_LOCATION
                               "Resources/${NEW_FILE_PATH}")
 
   # Optional: Add the file to the 'Resources' folder group in Xcode. This also

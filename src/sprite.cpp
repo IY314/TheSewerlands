@@ -1,5 +1,6 @@
 #include "sprite.hpp"
 
+#include "SFML/Graphics/Sprite.hpp"
 #include "resource-path.hpp"
 
 std::string getPath(const std::string &filename) noexcept
@@ -31,8 +32,8 @@ namespace swr
 {
     Spritesheet::Spritesheet(const std::string &filename,
                              const sf::Vector2i &size) noexcept(false)
-        : m_size(size),
-          m_texture(loadTexture(filename))
+        : m_texture(loadTexture(filename)),
+          m_size(size)
     {
     }
 
@@ -45,14 +46,18 @@ namespace swr
         return sprite;
     }
 
-    sf::Sprite getSprite(const std::string &filename,
-                         const sf::Vector2i &coords,
-                         const sf::Vector2i &size) noexcept(false)
+    Sprite::Sprite(const std::string &filename,
+                   const sf::Vector2i &coords,
+                   const sf::Vector2i &size) noexcept(false)
+        : m_coords(coords),
+          m_size(size),
+          m_texture(loadTexture(filename))
     {
-        const sf::Texture texture = loadTexture(filename);
-        sf::Sprite sprite;
-        sprite.setTexture(texture);
-        sprite.setTextureRect({coords, size});
-        return sprite;
+        m_sprite.setTexture(m_texture);
+        m_sprite.setTextureRect({coords * m_size, m_size * size});
     }
+
+    const sf::Sprite &Sprite::operator*() const noexcept { return m_sprite; }
+
+    sf::Sprite *Sprite::operator->() noexcept { return &m_sprite; }
 }  // namespace swr

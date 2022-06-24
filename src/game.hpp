@@ -1,6 +1,6 @@
 #pragma once
 
-#include "sprite.hpp"
+#include "room.hpp"
 
 namespace swr
 {
@@ -18,6 +18,6 @@ namespace swr
         void render() noexcept;
 
         sf::RenderWindow m_window;
-        Spritesheet m_spritesheet;
+        Room m_root;
     };
 }  // namespace swr

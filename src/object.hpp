@@ -11,17 +11,17 @@ namespace swr
     public:
         RoomObject(const std::string &name,
                    const sf::Vector2i &roomPos,
-                   const sf::Sprite &sprite) noexcept;
+                   const Sprite &sprite) noexcept;
         virtual ~RoomObject() = default;
 
-        virtual void update() noexcept = 0;
+        virtual void update() noexcept;
 
         virtual void render(sf::RenderWindow &window) const noexcept;
 
     private:
         std::string m_name;
         sf::Vector2i m_roomPos;
-        sf::Sprite m_sprite;
+        Sprite m_sprite;
     };
 
     class Chest : public RoomObject

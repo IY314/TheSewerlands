@@ -6,7 +6,7 @@ namespace swr
 {
     Game::Game() noexcept
         : m_window(sf::VideoMode({800, 600}), "TheSewerlands"),
-          m_spritesheet(resourcePath() + "spritesheet.png")
+          m_root("Chest Room", "/chestroom.png")
     {
     }
 
@@ -35,15 +35,12 @@ namespace swr
         }
     }
 
-    void Game::update() noexcept
-    {
-        // TODO: update the game
-    }
+    void Game::update() noexcept { m_root.update(); }
 
     void Game::render() noexcept
     {
         m_window.clear(sf::Color::Green);
-        // TODO: render the game
+        m_root.render(m_window);
         m_window.display();
     }
 }  // namespace swr

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #include "object.hpp"
 
 namespace swr
@@ -9,6 +11,7 @@ namespace swr
     public:
         Room(const std::string &name,
              const std::string &bgpath,
+             const std::vector<Room> &neighbors = {},
              const sf::Vector2i &size = {128, 128}) noexcept;
         ~Room() = default;
 
@@ -21,6 +24,8 @@ namespace swr
         sf::Vector2i m_size;
 
         std::vector<RoomObject> m_objects;
-        sf::Sprite m_background;
+        Sprite m_background;
+
+        std::vector<Room> m_neighbors;
     };
 }  // namespace swr
