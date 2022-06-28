@@ -1,7 +1,7 @@
 #include "sprite.hpp"
 
 #include "SFML/Graphics/Sprite.hpp"
-#include "resource-path.hpp"
+#include "mac/resource-path.hpp"
 
 std::string getPath(const std::string &filename) noexcept
 {

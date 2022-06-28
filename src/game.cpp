@@ -1,6 +1,6 @@
 #include "game.hpp"
 
-#include "resource-path.hpp"
+#include "mac/resource-path.hpp"
 
 namespace swr
 {
