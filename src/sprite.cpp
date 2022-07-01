@@ -1,26 +1,14 @@
 #include "sprite.hpp"
 
-#include "SFML/Graphics/Sprite.hpp"
-#include "mac/resource-path.hpp"
+#include <SDL_image.h>
 
-std::string getPath(const std::string &filename) noexcept
+SDL_Surface *loadTexture(const std::string &filename) noexcept(false)
 {
-    return !filename.empty() && filename[0] == '/'
-               ? resourcePath() + filename.substr(1)
-               : filename;
-}
-
-sf::Vector2i operator*(const sf::Vector2i &a, const sf::Vector2i &b) noexcept
-{
-    return {a.x * b.x, a.y * b.y};
-}
-
-sf::Texture loadTexture(const std::string &filename) noexcept(false)
-{
-    sf::Texture texture;
-    if (!texture.loadFromFile(getPath(filename)))
+    SDL_Surface *texture = IMG_Load(filename.c_str());
+    if (!texture)
     {
-        if (!texture.loadFromFile(getPath("/unknown.png")))
+        texture = IMG_Load("./unknown.png");
+        if (!texture)
         {
             throw std::runtime_error("Failed to load unknown.png");
         }
@@ -31,33 +19,19 @@ sf::Texture loadTexture(const std::string &filename) noexcept(false)
 namespace swr
 {
     Spritesheet::Spritesheet(const std::string &filename,
-                             const sf::Vector2i &size) noexcept(false)
-        : m_texture(loadTexture(filename)),
+                             const util::Vec2<int> &size) noexcept(false)
+        : m_surf(loadTexture(filename)),
           m_size(size)
     {
     }
 
-    sf::Sprite Spritesheet::operator()(const sf::Vector2i &coords,
-                                       const sf::Vector2i &size) const noexcept
+    Spritesheet::~Spritesheet() noexcept { SDL_FreeSurface(m_surf); }
+
+    void Spritesheet::operator()(SDL_Surface *dst,
+                                 SDL_Rect dstrect,
+                                 const util::Vec2<int> &pos) const noexcept
     {
-        sf::Sprite sprite;
-        sprite.setTexture(m_texture);
-        sprite.setTextureRect({coords * m_size, m_size * size});
-        return sprite;
+        SDL_Rect clip = {pos.x, pos.y, m_size.x, m_size.y};
+        SDL_BlitSurface(m_surf, &clip, dst, &dstrect);
     }
-
-    Sprite::Sprite(const std::string &filename,
-                   const sf::Vector2i &coords,
-                   const sf::Vector2i &size) noexcept(false)
-        : m_coords(coords),
-          m_size(size),
-          m_texture(loadTexture(filename))
-    {
-        m_sprite.setTexture(m_texture);
-        m_sprite.setTextureRect({coords * m_size, m_size * size});
-    }
-
-    const sf::Sprite &Sprite::operator*() const noexcept { return m_sprite; }
-
-    sf::Sprite *Sprite::operator->() noexcept { return &m_sprite; }
 }  // namespace swr

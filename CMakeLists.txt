@@ -10,5 +10,6 @@ project(
   LANGUAGES CXX OBJCXX
   VERSION 0.1)
 
-add_subdirectory("${CMAKE_SOURCE_DIR}/external/SFML")
+add_subdirectory("${CMAKE_SOURCE_DIR}/external/SDL")
+add_subdirectory("${CMAKE_SOURCE_DIR}/external/SDL_image")
 add_subdirectory("${CMAKE_SOURCE_DIR}/src")

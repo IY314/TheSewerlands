@@ -1,19 +1,23 @@
 #include "room.hpp"
-#include "sprite.hpp"
+
+#include <SDL_image.h>
 
 namespace swr
 {
     Room::Room(const std::string &name,
                const std::string &bgpath,
+               const util::Vec2<int> &pos,
                const std::vector<Room> &neighbors,
-               const sf::Vector2i &size) noexcept
+               const util::Vec2<int> &size) noexcept
         : m_name(name),
+          m_pos(pos),
           m_size(size),
-          m_background(bgpath, {0, 0}, size),
           m_neighbors(neighbors)
     {
-        m_background->setScale({5, 5});
+        m_bgsurf = IMG_Load(bgpath.c_str());
     }
+
+    Room::~Room() noexcept { SDL_FreeSurface(m_bgsurf); }
 
     void Room::update() noexcept
     {
@@ -22,11 +26,12 @@ namespace swr
         for (auto &object : m_objects) object.update();
     }
 
-    void Room::render(sf::RenderWindow &window) const noexcept
+    void Room::render(SDL_Surface *winsurf) const noexcept
     {
-        window.draw(*m_background);
+        SDL_Rect clip{m_pos.x, m_pos.y, m_size.x, m_size.y};
+        SDL_BlitSurface(m_bgsurf, NULL, winsurf, &clip);
 
-        for (const auto &room : m_neighbors) room.render(window);
-        for (const auto &object : m_objects) object.render(window);
+        for (const auto &room : m_neighbors) room.render(winsurf);
+        for (const auto &object : m_objects) object.render(winsurf);
     }
 }  // namespace swr

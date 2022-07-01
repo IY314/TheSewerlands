@@ -8,7 +8,7 @@ namespace swr
     {
     public:
         Game() noexcept;
-        ~Game() = default;
+        ~Game() noexcept;
 
         void run() noexcept;
 
@@ -17,7 +17,11 @@ namespace swr
         void update() noexcept;
         void render() noexcept;
 
-        sf::RenderWindow m_window;
+        bool m_running;
+
+        SDL_Window *m_win;
+        SDL_Surface *m_winsurf;
+        SDL_Event m_event;
         Room m_root;
     };
 }  // namespace swr
