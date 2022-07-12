@@ -23,6 +23,7 @@ namespace swr
 
         SDL_Window *m_win;
         SDL_Renderer *m_rend;
+        SDL_Rect m_viewport;
         SDL_Event m_event;
         std::unique_ptr<Room> m_root;
     };

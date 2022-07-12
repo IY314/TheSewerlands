@@ -37,6 +37,8 @@ namespace swr
                                         "Chest Room",
                                         "chestroom.png",
                                         util::Vec2{0, 0});
+
+        m_viewport = {0, 0, 800, 600};
     }
 
     Game::~Game() noexcept
@@ -67,10 +69,16 @@ namespace swr
             switch (e.type)
             {
             case SDL_QUIT: m_running = false; break;
-            // TODO: handle key input
             // TODO: handle other events
             default: break;
             }
+
+            const Uint8 *state = SDL_GetKeyboardState(nullptr);
+
+            if (state[SDL_SCANCODE_W]) m_viewport.y += 20;
+            if (state[SDL_SCANCODE_A]) m_viewport.x += 20;
+            if (state[SDL_SCANCODE_S]) m_viewport.y -= 20;
+            if (state[SDL_SCANCODE_D]) m_viewport.x -= 20;
         }
     }
 
@@ -82,6 +90,7 @@ namespace swr
 
         m_root->render(m_rend);
 
+        SDL_RenderSetViewport(m_rend, &m_viewport);
         SDL_RenderPresent(m_rend);
     }
 }  // namespace swr
