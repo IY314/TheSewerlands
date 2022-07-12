@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #include "room.hpp"
 
 namespace swr
@@ -8,7 +10,7 @@ namespace swr
     {
     public:
         Game() noexcept;
-        ~Game() = default;
+        ~Game() noexcept;
 
         void run() noexcept;
 
@@ -17,7 +19,11 @@ namespace swr
         void update() noexcept;
         void render() noexcept;
 
-        sf::RenderWindow m_window;
-        Room m_root;
+        bool m_running;
+
+        SDL_Window *m_win;
+        SDL_Renderer *m_rend;
+        SDL_Event m_event;
+        std::unique_ptr<Room> m_root;
     };
 }  // namespace swr

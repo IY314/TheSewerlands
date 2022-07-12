@@ -8,35 +8,37 @@ namespace swr
 {
     class RoomObject
     {
+        std::string m_name;
+        util::Vec2<int> m_pos, m_size;
+        SDL_Texture *m_tex;
+
     public:
-        RoomObject(const std::string &name,
-                   const sf::Vector2i &roomPos,
-                   const Sprite &sprite) noexcept;
-        virtual ~RoomObject() = default;
+        RoomObject(SDL_Renderer *rend,
+                   const std::string &name,
+                   const std::string &path,
+                   const util::Vec2<int> &pos,
+                   const util::Vec2<int> &size) noexcept;
+        virtual ~RoomObject() noexcept;
 
         virtual void update() noexcept;
 
-        virtual void render(sf::RenderWindow &window) const noexcept;
-
-    private:
-        std::string m_name;
-        sf::Vector2i m_roomPos;
-        Sprite m_sprite;
+        virtual void render(SDL_Renderer *rend) const noexcept;
     };
 
     class Chest : public RoomObject
     {
+        // std::vector<Item> m_items;
+        bool m_open;
+
     public:
-        Chest(const sf::Vector2i
-                  &roomPos /* , const std::vector<Item> & items */) noexcept;
-        ~Chest() override = default;
+        Chest(SDL_Renderer *rend,
+              const util::Vec2<int> &pos,
+              const util::Vec2<int>
+                  &size /* , const std::vector<Item> & items */) noexcept;
+        ~Chest() noexcept override;
 
         void update() noexcept override;
 
-        void render(sf::RenderWindow &window) const noexcept override;
-
-    private:
-        // std::vector<Item> m_items;
-        bool m_open;
+        void render(SDL_Renderer *rend) const noexcept override;
     };
 }  // namespace swr

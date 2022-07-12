@@ -1,19 +1,24 @@
 #include "room.hpp"
-#include "sprite.hpp"
+
+#include <SDL_image.h>
 
 namespace swr
 {
-    Room::Room(const std::string &name,
+    Room::Room(SDL_Renderer *rend,
+               const std::string &name,
                const std::string &bgpath,
+               const util::Vec2<int> &pos,
                const std::vector<Room> &neighbors,
-               const sf::Vector2i &size) noexcept
+               const util::Vec2<int> &size) noexcept
         : m_name(name),
+          m_pos(pos),
           m_size(size),
-          m_background(bgpath, {0, 0}, size),
+          m_bgtex(IMG_LoadTexture(rend, bgpath.c_str())),
           m_neighbors(neighbors)
     {
-        m_background->setScale({5, 5});
     }
+
+    Room::~Room() noexcept { SDL_DestroyTexture(m_bgtex); }
 
     void Room::update() noexcept
     {
@@ -22,11 +27,12 @@ namespace swr
         for (auto &object : m_objects) object.update();
     }
 
-    void Room::render(sf::RenderWindow &window) const noexcept
+    void Room::render(SDL_Renderer *rend) const noexcept
     {
-        window.draw(*m_background);
+        SDL_Rect clip{m_pos.x, m_pos.y, m_size.x * 5, m_size.y * 5};
+        SDL_RenderCopy(rend, m_bgtex, NULL, &clip);
 
-        for (const auto &room : m_neighbors) room.render(window);
-        for (const auto &object : m_objects) object.render(window);
+        for (const auto &room : m_neighbors) room.render(rend);
+        for (const auto &object : m_objects) object.render(rend);
     }
 }  // namespace swr

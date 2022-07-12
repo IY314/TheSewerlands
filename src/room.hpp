@@ -1,31 +1,30 @@
 #pragma once
 
-#include <memory>
-
 #include "object.hpp"
 
 namespace swr
 {
     class Room
     {
+        std::string m_name;
+        util::Vec2<int> m_pos, m_size;
+
+        std::vector<RoomObject> m_objects;
+        SDL_Texture *m_bgtex;
+
+        std::vector<Room> m_neighbors;
+
     public:
-        Room(const std::string &name,
+        Room(SDL_Renderer *rend,
+             const std::string &name,
              const std::string &bgpath,
+             const util::Vec2<int> &pos,
              const std::vector<Room> &neighbors = {},
-             const sf::Vector2i &size = {128, 128}) noexcept;
-        ~Room() = default;
+             const util::Vec2<int> &size = {128, 128}) noexcept;
+        ~Room() noexcept;
 
         void update() noexcept;
 
-        void render(sf::RenderWindow &window) const noexcept;
-
-    private:
-        std::string m_name;
-        sf::Vector2i m_size;
-
-        std::vector<RoomObject> m_objects;
-        Sprite m_background;
-
-        std::vector<Room> m_neighbors;
+        void render(SDL_Renderer *rend) const noexcept;
     };
 }  // namespace swr

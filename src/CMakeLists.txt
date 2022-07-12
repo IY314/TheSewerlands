@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.23)
 
-set(SEWERLANDS_SOURCES "main.cpp" "sprite.cpp" "resource-path.mm" "game.cpp"
+set(SEWERLANDS_SOURCES "main.cpp" "sprite.cpp" "game.cpp"
                        "object.cpp" "room.cpp")
 
 set(MACOSX_BUNDLE_ICON_FILE "sewerlands.icns")
@@ -32,7 +32,7 @@ foreach(FILE ${SEWERLANDS_RES_SOURCES})
 endforeach()
 
 target_include_directories(TheSewerlands
-                           PUBLIC "${CMAKE_SOURCE_DIR}/external/SFML/include")
+    PUBLIC "${CMAKE_SOURCE_DIR}/external/SDL/include"
+    PUBLIC "${CMAKE_SOURCE_DIR}/external/SDL_image")
 
-target_link_libraries(TheSewerlands PUBLIC sfml-graphics sfml-window
-                                           sfml-system "-framework Foundation")
+target_link_libraries(TheSewerlands PRIVATE SDL2 SDL2_image)
