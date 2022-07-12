@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #include "room.hpp"
 
 namespace swr
@@ -20,8 +22,8 @@ namespace swr
         bool m_running;
 
         SDL_Window *m_win;
-        SDL_Surface *m_winsurf;
+        SDL_Renderer *m_rend;
         SDL_Event m_event;
-        Room m_root;
+        std::unique_ptr<Room> m_root;
     };
 }  // namespace swr

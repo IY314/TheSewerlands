@@ -4,32 +4,34 @@
 
 namespace swr
 {
-    RoomObject::RoomObject(const std::string &name,
+    RoomObject::RoomObject(SDL_Renderer *rend,
+                           const std::string &name,
+                           const std::string &path,
                            const util::Vec2<int> &pos,
-                           const util::Vec2<int> &size,
-                           SDL_Surface *surf) noexcept
+                           const util::Vec2<int> &size) noexcept
         : m_name(name),
           m_pos(pos),
-          m_size(size)
+          m_size(size),
+          m_tex(IMG_LoadTexture(rend, path.c_str()))
     {
-        SDL_BlitSurface(surf, NULL, m_surf, NULL);
     }
 
-    RoomObject::~RoomObject() noexcept { SDL_FreeSurface(m_surf); }
+    RoomObject::~RoomObject() noexcept { SDL_DestroyTexture(m_tex); }
 
     // NOTE: this function is a no-op and will not be called
     void RoomObject::update() noexcept {}
 
-    void RoomObject::render(SDL_Surface *winsurf) const noexcept
+    void RoomObject::render(SDL_Renderer *rend) const noexcept
     {
         SDL_Rect clip{m_pos.x, m_pos.y, m_size.x, m_size.y};
-        SDL_BlitSurface(m_surf, NULL, winsurf, &clip);
+        SDL_RenderCopy(rend, m_tex, NULL, &clip);
     }
 
-    Chest::Chest(const util::Vec2<int> &pos,
+    Chest::Chest(SDL_Renderer *rend,
+                 const util::Vec2<int> &pos,
                  const util::Vec2<int>
                      &size /* , const std::vector<Item> & items */) noexcept
-        : RoomObject("Chest", pos, size, IMG_Load("chest.png")),
+        : RoomObject(rend, "Chest", "chest.png", pos, size),
           /* m_items(items), */
           m_open(false)
     {
@@ -42,7 +44,7 @@ namespace swr
         // TODO: update chest
     }
 
-    void Chest::render(SDL_Surface *winsurf) const noexcept
+    void Chest::render(SDL_Renderer *rend) const noexcept
     {
         // TODO: render chest
     }

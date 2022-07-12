@@ -2,18 +2,23 @@
 
 #include <iostream>
 
-void printErrAndQuit(const std::string &prefix) noexcept
+#include <SDL_image.h>
+
+void printErrAndQuit(const std::string &prefix, bool img = false) noexcept
 {
-    std::cerr << prefix << ": " << SDL_GetError() << '\n';
+    std::cerr << prefix << ": " << (img ? IMG_GetError() : SDL_GetError())
+              << '\n';
     std::exit(1);
 }
 
 namespace swr
 {
-    Game::Game() noexcept : m_root("Chest Room", "chestroom.png", {0, 0})
+    Game::Game() noexcept
     {
         if (SDL_Init(SDL_INIT_VIDEO) != 0)
             printErrAndQuit("Unable to start SDL");
+        if (IMG_Init(IMG_INIT_PNG) != IMG_INIT_PNG)
+            printErrAndQuit("Unable to start SDL_image", true);
 
         m_win = SDL_CreateWindow("TheSewerlands",
                                  SDL_WINDOWPOS_CENTERED,
@@ -24,14 +29,19 @@ namespace swr
 
         if (!m_win) printErrAndQuit("Unable to create window");
 
-        m_winsurf = SDL_GetWindowSurface(m_win);
+        m_rend = SDL_CreateRenderer(m_win, -1, SDL_RENDERER_ACCELERATED);
 
-        if (!m_winsurf) printErrAndQuit("Unable to get surface from window");
+        if (!m_rend) printErrAndQuit("Unable to create renderer");
+
+        m_root = std::make_unique<Room>(m_rend,
+                                        "Chest Room",
+                                        "chestroom.png",
+                                        util::Vec2{0, 0});
     }
 
     Game::~Game() noexcept
     {
-        SDL_FreeSurface(m_winsurf);
+        SDL_DestroyRenderer(m_rend);
         SDL_DestroyWindow(m_win);
         SDL_Quit();
     }
@@ -64,14 +74,14 @@ namespace swr
         }
     }
 
-    void Game::update() noexcept { m_root.update(); }
+    void Game::update() noexcept { m_root->update(); }
 
     void Game::render() noexcept
     {
-        SDL_FillRect(m_winsurf, NULL, SDL_MapRGB(m_winsurf->format, 0, 0, 0));
+        SDL_RenderClear(m_rend);
 
-        m_root.render(m_winsurf);
+        m_root->render(m_rend);
 
-        SDL_UpdateWindowSurface(m_win);
+        SDL_RenderPresent(m_rend);
     }
 }  // namespace swr

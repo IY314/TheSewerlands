@@ -10,18 +10,19 @@ namespace swr
     {
         std::string m_name;
         util::Vec2<int> m_pos, m_size;
-        SDL_Surface *m_surf;
+        SDL_Texture *m_tex;
 
     public:
-        RoomObject(const std::string &name,
+        RoomObject(SDL_Renderer *rend,
+                   const std::string &name,
+                   const std::string &path,
                    const util::Vec2<int> &pos,
-                   const util::Vec2<int> &size,
-                   SDL_Surface *surf) noexcept;
+                   const util::Vec2<int> &size) noexcept;
         virtual ~RoomObject() noexcept;
 
         virtual void update() noexcept;
 
-        virtual void render(SDL_Surface *winsurf) const noexcept;
+        virtual void render(SDL_Renderer *rend) const noexcept;
     };
 
     class Chest : public RoomObject
@@ -30,13 +31,14 @@ namespace swr
         bool m_open;
 
     public:
-        Chest(const util::Vec2<int> &pos,
+        Chest(SDL_Renderer *rend,
+              const util::Vec2<int> &pos,
               const util::Vec2<int>
                   &size /* , const std::vector<Item> & items */) noexcept;
         ~Chest() noexcept override;
 
         void update() noexcept override;
 
-        void render(SDL_Surface *winsurf) const noexcept override;
+        void render(SDL_Renderer *rend) const noexcept override;
     };
 }  // namespace swr

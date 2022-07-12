@@ -10,12 +10,13 @@ namespace swr
         util::Vec2<int> m_pos, m_size;
 
         std::vector<RoomObject> m_objects;
-        SDL_Surface *m_bgsurf;
+        SDL_Texture *m_bgtex;
 
         std::vector<Room> m_neighbors;
 
     public:
-        Room(const std::string &name,
+        Room(SDL_Renderer *rend,
+             const std::string &name,
              const std::string &bgpath,
              const util::Vec2<int> &pos,
              const std::vector<Room> &neighbors = {},
@@ -24,6 +25,6 @@ namespace swr
 
         void update() noexcept;
 
-        void render(SDL_Surface *winsurf) const noexcept;
+        void render(SDL_Renderer *rend) const noexcept;
     };
 }  // namespace swr

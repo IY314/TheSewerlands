@@ -4,7 +4,8 @@
 
 namespace swr
 {
-    Room::Room(const std::string &name,
+    Room::Room(SDL_Renderer *rend,
+               const std::string &name,
                const std::string &bgpath,
                const util::Vec2<int> &pos,
                const std::vector<Room> &neighbors,
@@ -12,12 +13,12 @@ namespace swr
         : m_name(name),
           m_pos(pos),
           m_size(size),
+          m_bgtex(IMG_LoadTexture(rend, bgpath.c_str())),
           m_neighbors(neighbors)
     {
-        m_bgsurf = IMG_Load(bgpath.c_str());
     }
 
-    Room::~Room() noexcept { SDL_FreeSurface(m_bgsurf); }
+    Room::~Room() noexcept { SDL_DestroyTexture(m_bgtex); }
 
     void Room::update() noexcept
     {
@@ -26,12 +27,12 @@ namespace swr
         for (auto &object : m_objects) object.update();
     }
 
-    void Room::render(SDL_Surface *winsurf) const noexcept
+    void Room::render(SDL_Renderer *rend) const noexcept
     {
-        SDL_Rect clip{m_pos.x, m_pos.y, m_size.x, m_size.y};
-        SDL_BlitSurface(m_bgsurf, NULL, winsurf, &clip);
+        SDL_Rect clip{m_pos.x, m_pos.y, m_size.x * 5, m_size.y * 5};
+        SDL_RenderCopy(rend, m_bgtex, NULL, &clip);
 
-        for (const auto &room : m_neighbors) room.render(winsurf);
-        for (const auto &object : m_objects) object.render(winsurf);
+        for (const auto &room : m_neighbors) room.render(rend);
+        for (const auto &object : m_objects) object.render(rend);
     }
 }  // namespace swr
