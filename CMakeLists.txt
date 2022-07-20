@@ -7,7 +7,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 project(
   sewerlands
-  LANGUAGES CXX OBJCXX
+  LANGUAGES CXX
   VERSION 0.1)
 
 add_subdirectory("${CMAKE_SOURCE_DIR}/external/SDL")
