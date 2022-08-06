@@ -1,7 +1,6 @@
 #include "game.hpp"
 
 #include <iostream>
-
 #include <SDL_image.h>
 
 void printErrAndQuit(const std::string &prefix, bool img = false) noexcept
